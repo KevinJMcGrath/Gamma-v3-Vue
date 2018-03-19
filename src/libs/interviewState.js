@@ -1,4 +1,7 @@
 const state = {
+	status: {
+		guid: ''
+	},
 	user: {
 		firstname: 'Kevin',
 		lastname: 'McGrath',
@@ -19,18 +22,18 @@ const state = {
 		promocode: 'GAMMA-2018'
 	},
 	legal: {
-		terms: false,
+		terms: true,
 		ofac: false,
 		other: false
 	},
 	billing: {
 		type: 'card',
-		address1: '',
-		address2: '',
-		city: '',
-		state: '',
-		zip: '',
-		country: '',
+		address1: '14 North Moore Street',
+		address2: 'Tribeca',
+		city: 'New York',
+		state: 'NY',
+		zip: '10013',
+		country: 'USA',
 		stripe_token: {}
 	},
 	pricing: {

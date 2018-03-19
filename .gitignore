@@ -1,4 +1,5 @@
 .idea
+.env
 .idea/
 .DS_Store
 node_modules/
@@ -9,3 +10,4 @@ src/config/*.tmp
 src/config/env.js
 /index.html
 /index_prod.html
+/src/credentials/

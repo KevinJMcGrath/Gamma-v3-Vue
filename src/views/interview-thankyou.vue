@@ -4,7 +4,7 @@
             <Header class="headerClass"></Header>
             <Layout>
                 <Sider hide-trigger class="sidebarClass">
-                    <Steps :current="2" direction="vertical">
+                    <Steps :current="6" direction="vertical">
                         <Step title="You" content="Information about the first user."></Step>
                         <Step title="Your Company" content="Some details about your organization."></Step>
                         <Step title="Symphony Service" content="How should the service be configured?"></Step>
@@ -23,43 +23,17 @@
                         </Row>
                         <Row type="flex" justify="center" style="margin-top:20px;">
                             <Col span=8>
-                                <p style="font-size: 2.2em;text-align:center;">Your Symphony Service...</p>
+                                <p style="font-size: 2.2em;text-align:center;">Thank You!</p>
                             </Col>
                         </Row>
                         <Row type="flex" justify="center" style="margin-top:20px;">
                             <Col span=16>
                                 <p style="margin-top:10px;font-size:1.2em;text-align:center;">
-                                    Here, we ask you to provide some infomration on how you want your new Symphony service to be configured. <b>Note:</b> The "Global Name" is used to configure how your company is shown to other Symphony member companies in our Global Directory.
+                                    We're going to start spinning up your service shortly. We expect it to be ready in about 1 hour. 
                                 </p>
                             </Col>
                         </Row>
-                        <Row type="flex" justify="center" style="margin-top:20px;">
-                            <Col span=10>
-                                <Form :model="serviceForm" :label-width="150">
-                                    <FormItem label="Requested Domain">
-                                        <Input v-model="serviceForm.subdomain">
-                                            <span slot="prepend">https://</span>
-                                            <span slot="append">.symphony.com</span>
-                                        </Input>
-                                    </FormItem>
-                                    <FormItem label="Initial Users">
-                                        <InputNumber :min="10" :step="1" v-model="serviceForm.seats"></InputNumber>
-                                        <a href="#">Pricing</a>
-                                    </FormItem>
-                                    <FormItem label="Global Name">
-                                        <Input v-model="serviceForm.directoryName"></Input>
-                                    </FormItem>
-                                </Form>
-                            </Col>
-                        </Row>
-                        <Row :gutter="16" type="flex" justify="center" style="margin-top:30px;">
-                            <Col span=2>
-                                <Button type="primary" size="large" @click="handleGotoCompany">Back</Button>
-                            </Col>
-                            <Col span=2>
-                                <Button type="primary" size="large" @click="handleGotoLegal">Continue</Button>
-                            </Col>
-                        </Row>
+                        
                     </Layout>
                 </Content>
             </Layout>
@@ -70,23 +44,9 @@
 <script>
 	export default {
         data() {
-            return {
-                serviceForm: {
-                    subdomain: '',
-                    seats: 10,
-                    directoryName: ''
-                }
-            }
+            return { }
         },
         methods: {
-            handleGotoLegal () {
-                //console.log("moving to start the flow.");
-                this.$router.push({name: "legal"});
-                
-            },
-            handleGotoCompany() {
-                this.$router.push({name: "company"})
-            }
         }
     }
 </script>

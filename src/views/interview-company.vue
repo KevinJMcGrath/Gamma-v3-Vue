@@ -16,25 +16,25 @@
                 </Sider>
                 <Content style="min-height: 600px;">
                     <Layout>
-                        <Row type="flex" justify="center" style="height:75px;">
+                        <Row type="flex" justify="center" class="logoRow">
                             <Col span=2 >
                                 <img src="../images/SymphonyLogo.png" height=75/>
                             </Col>
                         </Row>
-                        <Row type="flex" justify="center" style="margin-top:20px;">
-                            <Col span=6>
-                                <p style="font-size: 2.2em;text-align:center;">Your Organization...</p>
+                        <Row type="flex" justify="center" class="standardRow">
+                            <Col :xs=24 :sm=18 :md=10 :lg=8>
+                                <p class="p2">Your Organization...</p>
                             </Col>
                         </Row>
-                        <Row type="flex" justify="center" style="margin-top:20px;">
-                            <Col span=16>
-                                <p style="margin-top:10px;font-size:1.2em;text-align:center;">
+                        <Row type="flex" justify="center" class="standardRow">
+                            <Col :xs=24 :sm=20 :md=18 :lg=16>
+                                <p class="p4">
                                     Next, give us some details about your organization. We'll use this information to help tailor your team's overall experience. This will include positioning the servers in a geographically favorable datacenter and suggesting some additional tools and services you can include to help streamline your internal workflow.
                                 </p>
                             </Col>
                         </Row>
-                        <Row type="flex" justify="center" style="margin-top:20px;">
-                            <Col span=10>
+                        <Row type="flex" justify="center" class="standardRow">
+                            <Col :xs=20 :sm=20 :md=12 :lg=10>
                                 <Form :model="companyForm" :label-width="100">
                                     <FormItem label="Company Name">
                                         <Input v-model="companyForm.companyname" @on-change="fieldChange('company')"></Input>
@@ -77,11 +77,11 @@
                                 </Form>
                             </Col>
                         </Row>
-                        <Row :gutter="16" type="flex" justify="center" style="margin-top:30px;">
-                            <Col span=2>
+                        <Row type="flex" justify="center" class="buttonRow">
+                            <Col :xs=5 :sm=4 :md=3 :lg=2 class-name="backButtonCol">
                                 <Button type="primary" size="large" @click="handleGotoContact">Back</Button>
                             </Col>
-                            <Col span=2>
+                            <Col :xs=6 :sm=5 :md=4 :lg=3 class-name="nextButtonCol">
                                 <Button type="primary" size="large" @click="handleGotoService">Continue</Button>
                             </Col>
                         </Row>
@@ -119,7 +119,7 @@
                 switch(fieldName)
                 {
                     case 'company':
-                        globalState.company.name = this.companyForm.compnayname;
+                        globalState.company.name = this.companyForm.companyname;
                         break;
                     case 'industry':
                         globalState.company.industry = this.companyForm.industry;
@@ -144,14 +144,6 @@
 </script>
 <style scoped>
 
-	@font-face {
-        font-family: "MrRoboto";
-        src: url(../assets/fonts/Roboto-Regular.ttf);
-    }
-    body {
-
-        font-family: "MrRoboto";
-    }
     .layout {
         border: 1px solid #d7dde4;
         background: #f5f7f9;

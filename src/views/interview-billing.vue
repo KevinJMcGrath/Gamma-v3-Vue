@@ -16,27 +16,27 @@
                 </Sider>
                 <Content style="min-height: 600px;">
                     <Layout>
-                        <Row type="flex" justify="center" style="height:75px;">
+                        <Row type="flex" justify="center" class="logoRow">
                             <Col span=2 >
                                 <img src="../images/SymphonyLogo.png" height=75/>
                             </Col>
                         </Row>
-                        <Row type="flex" justify="center" style="margin-top:20px;">
-                            <Col span=8>
-                                <p style="font-size: 2.2em;text-align:center;">Your Billing Info...</p>
+                        <Row type="flex" justify="center" class="standardRow">
+                            <Col :xs=24 :sm=18 :md=10 :lg=8>
+                                <p class="p2">Your Billing Info...</p>
                             </Col>
                         </Row>
-                        <Row type="flex" justify="center" style="margin-top:20px;">
-                            <Col span=16>
-                                <p style="margin-top:10px;font-size:1.2em;text-align:center;">
+                        <Row type="flex" justify="center" class="standardRow">
+                            <Col :xs=24 :sm=20 :md=18 :lg=16>
+                                <p class="p4">
                                     It's time for the hard part. We're going to ask you some questions about the payment method you want to use to subscribe to the Symphony service. Symphony uses <a href="#">Stripe</a> as our payment processor in order to provide an easy, secure experience. 
                                 </p>
                             </Col>
                         </Row>
 
                         <Form :model="billingForm" :label-width="150">
-                        <Row type="flex" justify="center" style="margin-top:20px;">
-                            <Col span=10>                                
+                        <Row type="flex" justify="center" class="standardRow">
+                            <Col :xs=20 :sm=20 :md=12 :lg=10>                                
                                 <FormItem label="Payment Type" >
                                     <Select v-model="billingForm.type" placeholder="Select" @on-change="fieldChange('type')">
                                         <Option value="card">Credit Card</Option>
@@ -45,53 +45,52 @@
                                 </FormItem>
                             </Col>
                         </Row>
-                        <Row type="flex" justify="center" style="margin-top:20px;">
-                            <Col span=10>
-                                <Card>
-                                    <p slot="title">Billing Address</p>
-                                    <p>
-                                        <FormItem label="Billing Address 1">
-                                            <Input v-model="billingForm.address1" @on-change="fieldChange('address1')"></Input>
-                                        </FormItem>
-                                        <FormItem label="Billing Address 2">
-                                            <Input v-model="billingForm.address2" @on-change="fieldChange('address2')"></Input>
-                                        </FormItem>
-                                        <FormItem label="City">
-                                            <Input v-model="billingForm.city" @on-change="fieldChange('city')"></Input>
-                                        </FormItem>
-                                        <FormItem label="State/Provice">
-                                            <Input v-model="billingForm.state" @on-change="fieldChange('state')"></Input>
-                                        </FormItem>
-                                        <FormItem label="Postal Code">
-                                            <Input v-model="billingForm.zip" @on-change="fieldChange('zip')"></Input>
-                                        </FormItem>
-                                        <FormItem label="Country">
-                                            <Input v-model="billingForm.country" @on-change="fieldChange('country')"></Input>
-                                        </FormItem>
-                                    </p>
-                                </Card>
-                            </Col>
-                        </Row>
-                        <Row type="flex" justify="center" style="margin-top:10px;">
-                            <Col span=12>
+                        <Row type="flex" justify="center"  class="standardRow">
+                            <Col :xs=20 :sm=20 :md=18 :lg=14>
                                 <Card>
                                     <p slot="title">Payment Details</p>
                                     <p>
-                                        <div id="card-element" class="field"></div>
-                                        <!--<div id="stripe-card-number" class="field empty"></div>
-                                        <div id="stripe-card-exp" class="field empty"></div>
-                                        <div id="stripe-card-cvc" class="field empty"></div>-->
+                                        <Row>
+                                            <Col span=24>
+                                                <FormItem :label-width=10>
+                                                    <Input v-model="billingForm.address1" @on-change="fieldChange('address1')" placeholder="Street Address"></Input>
+                                                </FormItem>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col span=10>
+                                                <FormItem :label-width=10>
+                                                    <Input v-model="billingForm.city" @on-change="fieldChange('city')" placeholder="City"></Input>
+                                                </FormItem>
+                                            </Col>
+                                            <Col span=6 >
+                                                <FormItem :label-width=10>
+                                                    <Input v-model="billingForm.state" @on-change="fieldChange('state')" placeholder="State"></Input>
+                                                </FormItem>
+                                            </Col>
+                                            <Col span=8>
+                                                <FormItem :label-width=10>
+                                                    <Input v-model="billingForm.zip" @on-change="fieldChange('zip')" placeholder="ZIP"></Input>
+                                                </FormItem>
+                                            </Col>
+                                        </Row>
+                                        
+                                        <Row type="flex" justify="center">
+                                            <Col span=18>
+                                                <div id="card-element" class="field"></div>
+                                            </Col>
+                                        </Row>
                                     </p>
                                 </Card>
                             </Col>
                         </Row>
                         </Form>
 
-                        <Row :gutter="16" type="flex" justify="center" style="margin-top:30px;">
-                            <Col span=2>
+                        <Row type="flex" justify="center" class="buttonRow">
+                            <Col :xs=5 :sm=4 :md=3 :lg=2 class-name="backButtonCol">
                                 <Button type="primary" size="large" @click="handleGotoLegal">Back</Button>
                             </Col>
-                            <Col span=2>
+                            <Col :xs=6 :sm=5 :md=4 :lg=3 class-name="nextButtonCol">
                                 <Button type="primary" size="large" @click="handleGotoSummary">Continue</Button>
                             </Col>
                         </Row>

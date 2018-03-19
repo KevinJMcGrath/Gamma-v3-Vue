@@ -7,6 +7,14 @@ const routers = [
         },
         component: (resolve) => require(['./views/index.vue'], resolve)
     },
+    {       
+        path: '/email/',
+        name: 'email',
+        meta: {
+            title: 'Symphony - Email Verification'
+        },
+        component: (resolve) => require(['./views/interview-email.vue'], resolve)
+    },
     {    	
         path: '/contact/',
         name: 'contact',

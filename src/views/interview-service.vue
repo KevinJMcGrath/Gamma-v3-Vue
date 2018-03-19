@@ -16,58 +16,64 @@
                 </Sider>
                 <Content style="min-height: 600px;">
                     <Layout>
-                        <Row type="flex" justify="center" style="height:75px;">
+                        <Row type="flex" justify="center" class="logoRow">
                             <Col span=2 >
                                 <img src="../images/SymphonyLogo.png" height=75/>
                             </Col>
                         </Row>
-                        <Row type="flex" justify="center" style="margin-top:20px;">
-                            <Col span=8>
-                                <p style="font-size: 2.2em;text-align:center;">Your Symphony Service...</p>
+                        <Row type="flex" justify="center" class="standardRow">
+                            <Col  :xs=24 :sm=18 :md=10 :lg=8>
+                                <p class="p2">Your Symphony Service...</p>
                             </Col>
                         </Row>
-                        <Row type="flex" justify="center" style="margin-top:20px;">
-                            <Col span=16>
-                                <p style="margin-top:10px;font-size:1.2em;text-align:center;">
+                        <Row type="flex" justify="center" class="standardRow">
+                            <Col :xs=24 :sm=20 :md=18 :lg=16>
+                                <p class="p4">
                                     Here, we ask you to provide some infomration on how you want your new Symphony service to be configured. <b>Note:</b> The "Global Name" is used to configure how your company is shown to other Symphony member companies in our Global Directory.
                                 </p>
                             </Col>
                         </Row>
-                        <Row type="flex" justify="center" style="margin-top:20px;">
-                            <Col span=10>
-                                <Form :model="serviceForm" :label-width="150">
-                                    <FormItem label="Requested Domain">
-                                        <Input v-model="serviceForm.subdomain" @on-change="fieldChange('subdomain')">
-                                            <span slot="prepend">https://</span>
-                                            <span slot="append">.symphony.com</span>
-                                        </Input>
-                                    </FormItem>
-                                    <FormItem label="Initial Users">
-                                        <InputNumber :min="10" :step="1" v-model="serviceForm.seats" @on-change="fieldChange('seats')"></InputNumber>
-                                        <a href="#">Pricing</a>
-                                    </FormItem>
-                                    <FormItem label="Global Name">
-                                        <Input v-model="serviceForm.directoryname" @on-change="fieldChange('directoryname')"></Input>
-                                    </FormItem>
-                                    <FormItem label="Support Tier">
-                                        <Select v-model="serviceForm.support_tier" placeholder="Select" @on-change="fieldChange('support_tier')">
-                                            <Option value="bronze">Self-Service (Free)</Option>
-                                            <Option value="silver">Silver ($500/year)</Option>
-                                            <Option value="gold">Gold ($1000/year)</Option>
-                                            <Option value="platinum">Platinum ($2000/year)</Option>
-                                        </Select>
-                                    </FormItem>
-                                    <FormItem label="Promo Code">
-                                        <Input v-model="serviceForm.promocode" @on-change="fieldChange('promocode')"></Input>
-                                    </FormItem>
-                                </Form>
+
+                        <Form :model="serviceForm" :label-width="150">
+                        <Row type="flex" justify="center" class="standardRow">
+                            <Col :xs=20 :sm=20 :md=16 :lg=14>                                
+                                <FormItem label="Requested Domain">
+                                    <Input v-model="serviceForm.subdomain" @on-change="fieldChange('subdomain')">
+                                        <span slot="prepend">https://</span>
+                                        <span slot="append">.symphony.com</span>
+                                    </Input>
+                                </FormItem>
                             </Col>
                         </Row>
-                        <Row :gutter="16" type="flex" justify="center" style="margin-top:30px;">
-                            <Col span=2>
+                        <Row type="flex" justify="center" >
+                            <Col :xs=20 :sm=20 :md=12 :lg=10> 
+                                <FormItem label="Initial Users">
+                                    <InputNumber :min="10" :step="1" v-model="serviceForm.seats" @on-change="fieldChange('seats')"></InputNumber>
+                                    <a href="#">Pricing</a>
+                                </FormItem>
+                                <FormItem label="Global Name">
+                                    <Input v-model="serviceForm.directoryname" @on-change="fieldChange('directoryname')"></Input>
+                                </FormItem>
+                                <FormItem label="Support Tier">
+                                    <Select v-model="serviceForm.support_tier" placeholder="Select" @on-change="fieldChange('support_tier')">
+                                        <Option value="bronze">Self-Service (Free)</Option>
+                                        <Option value="silver">Silver ($500/year)</Option>
+                                        <Option value="gold">Gold ($1000/year)</Option>
+                                        <Option value="platinum">Platinum ($2000/year)</Option>
+                                    </Select>
+                                </FormItem>
+                                <FormItem label="Promo Code">
+                                    <Input v-model="serviceForm.promocode" @on-change="fieldChange('promocode')"></Input>
+                                </FormItem>                                
+                            </Col>
+                        </Row>
+                        </Form>
+
+                        <Row type="flex" justify="center" class="buttonRow">
+                            <Col :xs=5 :sm=4 :md=3 :lg=2 class-name="backButtonCol">
                                 <Button type="primary" size="large" @click="handleGotoCompany">Back</Button>
                             </Col>
-                            <Col span=2>
+                            <Col :xs=6 :sm=5 :md=4 :lg=3 class-name="nextButtonCol">
                                 <Button type="primary" size="large" @click="handleGotoLegal">Continue</Button>
                             </Col>
                         </Row>

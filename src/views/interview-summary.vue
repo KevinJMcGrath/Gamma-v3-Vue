@@ -21,14 +21,14 @@
                                 <img src="../images/SymphonyLogo.png" height=75/>
                             </Col>
                         </Row>
-                        <Row type="flex" justify="center" style="margin-top:20px;">
-                            <Col span=8>
-                                <p style="font-size: 2.2em;text-align:center;">Review Your Subscription...</p>
+                        <Row type="flex" justify="center" class="standardRow">
+                            <Col :xs=24 :sm=18 :md=10 :lg=8>
+                                <p class="p2">Review Your Subscription...</p>
                             </Col>
                         </Row>
-                        <Row type="flex" justify="center" style="margin-top:20px;">
-                            <Col span=16>
-                                <p style="margin-top:10px;font-size:1.2em;text-align:center;">
+                        <Row type="flex" justify="center" class="standardRow">
+                            <Col :xs=24 :sm=20 :md=18 :lg=16>
+                                <p  class="p4">
                                     In the home stretch now! Review the details of your subscription below. If you're satisfied, click the "Purchase Now" button. 
                                     <br/>
                                     <br/>
@@ -36,7 +36,7 @@
                                 </p>
                             </Col>
                         </Row>
-                        <Row type="flex" justify="center" style="margin-top:20px;">
+                        <Row type="flex" justify="center" class="standardRow">
                             <Col span=16>
                                 <Collapse v-model="accordionPanel">
                                     <Panel name="servicePanel">
@@ -91,11 +91,11 @@
                                
                             </Col>
                         </Row>
-                        <Row :gutter="16" type="flex" justify="center" style="margin-top:30px;">
-                            <Col span=2>
+                        <Row type="flex" justify="center" class="buttonRow">
+                            <Col :xs=5 :sm=4 :md=3 :lg=2 class-name="backButtonCol">
                                 <Button type="primary" size="large" @click="handleGotoBilling">Back</Button>
                             </Col>
-                            <Col span=2>
+                            <Col :xs=6 :sm=5 :md=4 :lg=3 class-name="nextButtonCol">
                                 <Button type="primary" size="large" @click="handleGotoThankyou">Purchase Now</Button>
                             </Col>
                         </Row>
@@ -108,6 +108,7 @@
 </template>
 <script>
     import globalState from '../libs/interviewState.js';
+    import sfdc_request from '../libs/sfdc.js';
 
 	export default {
         data() {
@@ -169,7 +170,22 @@
         },
         methods: {
             handleGotoThankyou () {
-                this.$router.push({name: "thankyou"});                
+
+                sfdc_request().then(function(response) {
+                    console.log('Logging response:');
+                    console.log(response);
+                }.bind(this)).catch(function (err) {
+                    console.log('Logging error:');
+                    console.error(err);
+                });     
+
+
+                //var test = sfdc_request();
+
+                //console.log(test);
+
+
+                //this.$router.push({name: "thankyou"});                
             },
             handleGotoBilling() {
                 this.$router.push({name: "billing"})

@@ -4,20 +4,24 @@
   "description": "Gamma v3 - A Symphony Communications self-service website for taking new Business tier orders.",
   "main": "index.js",
   "scripts": {
+    "predev": "node getEnv",
     "init": "webpack --progress --config webpack.dev.config.js",
     "dev": "webpack-dev-server --content-base ./ --open --inline --hot --compress --history-api-fallback --config webpack.dev.config.js",
     "build": "webpack --progress --hide-modules --config webpack.prod.config.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iview/iview-project.git"
+    "url": "git+https://github.com/KevinJMcGrath/Gamma-v3-Vue.git"
   },
   "author": "Kevin McGrath",
   "license": "MIT",
   "dependencies": {
+    "@google-cloud/storage": "^1.6.0",
+    "axios": "^0.18.0",
+    "dotenv": "^5.0.1",
+    "iview": "^2.0.0-rc.8",
     "vue": "^2.2.6",
-    "vue-router": "^2.2.1",
-    "iview": "^2.0.0-rc.8"
+    "vue-router": "^2.2.1"
   },
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",
@@ -47,7 +51,7 @@
     "webpack-merge": "^3.0.0"
   },
   "bugs": {
-    "url": "https://github.com/iview/iview-project/issues"
+    "url": "https://github.com/KevinJMcGrath/Gamma-v3-Vue/issues"
   },
   "homepage": "https://www.symphony.com"
 }

@@ -6,6 +6,8 @@ import Util from './libs/util';
 import App from './app.vue';
 import 'iview/dist/styles/iview.css';
 
+//require('dotenv').config();
+
 
 Vue.use(VueRouter);
 Vue.use(iView);
@@ -17,6 +19,11 @@ const RouterConfig = {
 };
 //Instantiate the Vue Router
 const router = new VueRouter(RouterConfig);
+
+//testing process.env
+console.log("Exporting Environment Variables: ");
+console.log(process.env.NODE_ENV);
+console.log(process.env.SFDC_EMAIL_KEY); 
 
 //Navigation Guards
 //https://router.vuejs.org/en/advanced/navigation-guards.html

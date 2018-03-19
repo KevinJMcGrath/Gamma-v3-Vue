@@ -1,8 +1,8 @@
 <template>
-	<div class="layout">
+	<div class="sym-layout">
         <Layout>
             <Header class="headerClass"></Header>
-            <Layout>
+            <Layout class="layoutClass">
                 <Sider hide-trigger class="sidebarClass">
                     <Steps :current="0" direction="vertical">
                         <Step title="You" content="Information about the first user."></Step>
@@ -14,27 +14,27 @@
                         <Step title="Finished!" content=""></Step>
                     </Steps>
                 </Sider>
-                <Content style="min-height: 600px;">
+                <Content class="contentClass">
                     <Layout>
-                        <Row type="flex" justify="center" style="height:75px;">
+                        <Row type="flex" justify="center" class="logoRow">
                             <Col span=2 >
                                 <img src="../images/SymphonyLogo.png" height=75/>
                             </Col>
                         </Row>
-                        <Row type="flex" justify="center" style="margin-top:20px;">
-                            <Col span=6>
-                                <p style="font-size: 2.2em;text-align:center;">Tell Us About You...</p>
+                        <Row type="flex" justify="center" class="standardRow">
+                            <Col :xs=24 :sm=18 :md=10 :lg=8> <!--span=6-->
+                                <p class="p2">Tell Us About You...</p>
                             </Col>
-                        </Row>
-                        <Row type="flex" justify="center" style="margin-top:20px;">
-                            <Col span=16>
-                                <p style="margin-top:10px;font-size:1.2em;text-align:center;">
+                        </Row>                        
+                        <Row type="flex" justify="center" class="standardRow">
+                            <Col :xs=24 :sm=20 :md=18 :lg=16><!--span=16-->
+                                <p class="p4">
                                     As the very first user in your new Symphony instance, we need some information to configure your user account and establish a point of contact for initial setup details and service communications (e.g. upgrade announcements, service interruptions, etc.)
                                 </p>
                             </Col>
                         </Row>
-                        <Row type="flex" justify="center" style="margin-top:20px;">
-                            <Col span=10>
+                        <Row type="flex" justify="center" class="standardRow">
+                            <Col :xs=20 :sm=20 :md=12 :lg=10>
                                 <Form :model="contactForm" :label-width="100">
                                     <FormItem label="First Name">
                                         <Input v-model="contactForm.firstname" @on-change="fieldChange('fname')"></Input>
@@ -54,11 +54,11 @@
                                 </Form>
                             </Col>
                         </Row>
-                        <Row :gutter="16" type="flex" justify="center" style="margin-top:30px;">
-                            <Col span=2>
+                        <Row type="flex" justify="center" class="buttonRow">
+                            <Col :xs=5 :sm=4 :md=3 :lg=2 class-name="backButtonCol"> 
                                 <Button disabled type="primary" size="large">Back</Button>
                             </Col>
-                            <Col span=2>
+                            <Col :xs=6 :sm=5 :md=4 :lg=3 class-name="nextButtonCol">
                                 <Button type="primary" size="large" @click="handleGotoCompany">Continue</Button>
                             </Col>
                         </Row>
@@ -134,14 +134,7 @@
 </script>
 <style scoped>
 
-	@font-face {
-        font-family: "MrRoboto";
-        src: url(../assets/fonts/Roboto-Regular.ttf);
-    }
-    body {
 
-        font-family: "MrRoboto";
-    }
     .layout {
         border: 1px solid #d7dde4;
         background: #f5f7f9;
@@ -162,5 +155,20 @@
         padding-top:15px;
         padding-left:5px;
     }
+
+    .contentClass {
+        min-height: 600px;
+        /*background-color: transparent;
+        border: 1px solid red;
+        display: none;*/
+    }
+
+    .layoutClass {
+        /*
+        background: url("../images/fractals_2560.jpg") no-repeat top left;
+        background-size: 100% 50%;
+        border: 1px solid red;*/
+    }
+
 
 </style>
