@@ -12,3 +12,4 @@ src/config/env.js
 /index_prod.html
 /src/credentials/
 app.yaml
+*.bak
