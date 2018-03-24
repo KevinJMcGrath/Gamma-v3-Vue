@@ -1,24 +1,24 @@
 <template>
-	<div class="layout">
+	<div class="sym-layout">
         <Layout>
             <Header class="headerClass"></Header>
-            <Layout>
+            <Layout class="layoutClass">
                 <Sider hide-trigger class="sidebarClass">
                     <Steps :current="5" direction="vertical">
                         <Step title="You" content="Information about the first user."></Step>
                         <Step title="Your Company" content="Some details about your organization."></Step>
                         <Step title="Symphony Service" content="How should the service be configured?"></Step>
                         <Step title="Legalese" content="Our terms and conditions."></Step>
-                        <Step title="Billing Details" content="Credit card and billing information"></Step>
+                        <Step title="Billing" content="Credit card and billing information."></Step>
                         <Step title="Purchase Summary" content="Subscription summary and confirmation."></Step>
                         <Step title="Finished!" content=""></Step>
                     </Steps>
                 </Sider>
-                <Content style="min-height: 600px;">
-                    <Layout>
-                        <Row type="flex" justify="center" style="height:75px;">
+                <Content class="contentClass">
+                    <Layout class="invisibleLayout">
+                        <Row type="flex" justify="center" class="logoRow">
                             <Col span=2 >
-                                <img src="../images/SymphonyLogo.png" height=75/>
+                                <img src="../images/Purchase-Icon.png" height=75/>
                             </Col>
                         </Row>
                         <Row type="flex" justify="center" class="standardRow">
@@ -29,16 +29,43 @@
                         <Row type="flex" justify="center" class="standardRow">
                             <Col :xs=24 :sm=20 :md=18 :lg=16>
                                 <p  class="p4">
-                                    In the home stretch now! Review the details of your subscription below. If you're satisfied, click the "Purchase Now" button. 
-                                    <br/>
-                                    <br/>
-                                    <b>Note:</b> Because our service is built to order, it may take up to an hour for you to receive your service credentials. We will not process your payment until we have spawned your instance and delivered your login details. 
+                                    Review the details of your subscription below. If you are satisfied, click "Purchase Now".
                                 </p>
                             </Col>
                         </Row>
                         <Row type="flex" justify="center" class="standardRow">
                             <Col span=16>
-                                <Collapse v-model="accordionPanel">
+                                <Card>
+                                    <p slot="title">Subscription Summary</p>
+                                    <p>
+                                        <Row>
+                                            <Col span=6 style="text-align:right;font-weight:bold;">Company Vanity Name:</Col>
+                                            <Col span=4 style="text-align:left;">{{serviceSummary.directoryname}}</Col>
+
+                                            <Col span=6 offset="2" style="text-align:right;font-weight:bold;">Setup Fee:</Col>
+                                            <Col span=6 style="text-align:left;">${{serviceSummary.onetime_fees}}.00</Col>
+
+                                        </Row>
+                                        <Row>
+                                            <Col span=6 style="text-align:right;font-weight:bold;">User Licenses:</Col>
+                                            <Col span=4 style="text-align:left;">{{serviceSummary.seats}}</Col>
+                                            
+                                            <Col span=6 offset="2" style="text-align:right;font-weight:bold">Annual Subscription:</Col>
+                                            <Col span=6 style="text-align:left;">${{annual_subscription}}.00</Col>
+
+                                        </Row>
+                                        <Row type="flex" justify="start" class="standardRow">
+                                            <Col span=2></Col>
+                                            <Col span=18>
+                                                <p style="font-size:0.8em;">Your subscription will be for <b>12 months</b> from the date of delivery. The setup fee will be charged only once. Your card will automatically be charged for your subscription yearly on your anniversary date. </p>
+                                            </Col>
+                                        </Row>
+
+
+                                        
+                                    </p>
+                                </Card>
+                                <!--<Collapse v-model="accordionPanel">
                                     <Panel name="servicePanel">
                                         Service Details
                                         <p slot="content">
@@ -87,8 +114,22 @@
                                             </Row>
                                         </p>
                                     </Panel>
-                                </Collapse>
+                                </Collapse>-->
                                
+                            </Col>
+                        </Row>
+                        <Row type="flex" justify="center" class="standardRow">
+                            <Col :xs=24 :sm=20 :md=18 :lg=16>
+                                <Alert show-icon>
+                                    Your credit card will <b>not</b> be charged until your instance is complete and you are provided with login credentials.
+                                </Alert>
+                            </Col>
+                        </Row>
+                        <Row type="flex" justify="center" class="alertRow">
+                            <Col :xs=24 :sm=20 :md=18 :lg=16>
+                                <Alert show-icon>
+                                    Your instance is created at time of purchase. It may take up to <b style="color: Firebrick;">2 hours</b> to receive your login details.
+                                </Alert>
                             </Col>
                         </Row>
                         <Row type="flex" justify="center" class="buttonRow">
@@ -171,13 +212,14 @@
         methods: {
             handleGotoThankyou () {
 
-                sfdc_request().then(function(response) {
+                // 3/22/2018 This is working, I have it commented out for demo purposes
+                /*sfdc_request().then(function(response) {
                     console.log('Logging response:');
                     console.log(response);
                 }.bind(this)).catch(function (err) {
                     console.log('Logging error:');
                     console.error(err);
-                });     
+                }); */
 
 
                 //var test = sfdc_request();
@@ -185,7 +227,7 @@
                 //console.log(test);
 
 
-                //this.$router.push({name: "thankyou"});                
+                this.$router.push({name: "thankyou"});                
             },
             handleGotoBilling() {
                 this.$router.push({name: "billing"})
@@ -195,33 +237,5 @@
 </script>
 <style scoped>
 
-	@font-face {
-        font-family: "MrRoboto";
-        src: url(../assets/fonts/Roboto-Regular.ttf);
-    }
-    body {
-
-        font-family: "MrRoboto";
-    }
-    .layout {
-        border: 1px solid #d7dde4;
-        background: #f5f7f9;
-        position: relative;
-        border-radius: 20px;
-        overflow: hidden;
-        margin:50px;
-    }
-
-    .headerClass {
-        background: #F5F7F9;
-    }
-
-    .sidebarClass {
-        background: white;
-        border-radius: 10px;
-        margin:0 10px;
-        padding-top:15px;
-        padding-left:5px;
-    }
 
 </style>

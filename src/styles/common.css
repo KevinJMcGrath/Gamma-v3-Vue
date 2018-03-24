@@ -1,3 +1,4 @@
+/*Icons - http://www.iconarchive.com/show/100-flat-icons-by-graphicloads.1.html*/
 @font-face {
     font-family: "MrRoboto";
     src: url(../assets/fonts/Roboto-Regular.ttf);
@@ -16,17 +17,57 @@ body {
     margin: 50px;
 }
 
+.layoutClass {
+    background-image: url('../images/apps-bots-on-symphony.png') !important;
+    background-position: bottom right !important; 
+    background-repeat: no-repeat !important;    
+}
+
+.layoutClassStationary {
+    background-image: url('../images/apps-bots-on-symphony.png') !important;
+    background-position: top 200px right !important; 
+    background-repeat: no-repeat !important;    
+}
+
+.layoutClassEmail {
+    background-image: url('../images/business-solutions-transp.png') !important;
+    background-position: top right !important; 
+    background-repeat: no-repeat !important;    
+}
+
+.whiteWithShadow {
+    color: white;
+    text-shadow: 1px 1px 2px black;
+}
+
+.invisibleLayout {
+    background-color: transparent !important;
+}
+
+.headerClass {
+    background-color: #F5F7F9 !important;
+    background-image: url('../images/symphony-logo-nav-light.svg') !important;
+    background-size: auto 40px !important;
+    background-position: bottom 10px left 10px !important; 
+    background-repeat: no-repeat !important;  
+
+}
+
 .header-bg-fix {
     background: #F5F7F9;
 }
 
 .contentClass {
-    background: #F5F7F9;
-    min-height: 500px;
+    min-height: 600px;
+    background-color:transparent;
 }
 
 .logoRow {
 	height: 75px;
+}
+
+.alertRow {
+    margin-top: 10px;
 }
 
 .standardRow {
@@ -70,9 +111,9 @@ body {
 }
 
 .sidebarClass {
-    background: white;
-    border-radius: 10px;
-    margin:0 10px;
-    padding-top:15px;
-    padding-left:5px;
+    background: white !important;
+    border-radius: 10px !important;
+    margin:0 10px !important;
+    padding-top:15px !important;
+    padding-left:5px !important;
 }

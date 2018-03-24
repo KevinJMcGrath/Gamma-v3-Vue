@@ -11,3 +11,4 @@ src/config/env.js
 /index.html
 /index_prod.html
 /src/credentials/
+app.yaml

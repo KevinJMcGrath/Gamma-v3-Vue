@@ -13,7 +13,15 @@ const routers = [
         meta: {
             title: 'Symphony - Email Verification'
         },
-        component: (resolve) => require(['./views/interview-email.vue'], resolve)
+        component: (resolve) => require(['./views/interview-email.vue'], resolve) 
+    },
+    {       
+        path: '/email-thankyou/',
+        name: 'email-thankyou',
+        meta: {
+            title: 'Symphony - Email Verification'
+        },
+        component: (resolve) => require(['./views/interview-email-thankyou.vue'], resolve) 
     },
     {    	
         path: '/contact/',

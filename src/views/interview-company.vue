@@ -1,24 +1,24 @@
 <template>
-	<div class="layout">
+	<div class="sym-layout">
         <Layout>
             <Header class="headerClass"></Header>
-            <Layout>
+            <Layout class="layoutClass">
                 <Sider hide-trigger class="sidebarClass">
                     <Steps :current="1" direction="vertical">
                         <Step title="You" content="Information about the first user."></Step>
                         <Step title="Your Company" content="Some details about your organization."></Step>
                         <Step title="Symphony Service" content="How should the service be configured?"></Step>
                         <Step title="Legalese" content="Our terms and conditions."></Step>
-                        <Step title="Billing Details" content="Credit card and billing information"></Step>
+                        <Step title="Billing" content="Credit card and billing information."></Step>
                         <Step title="Purchase Summary" content="Subscription summary and confirmation."></Step>
                         <Step title="Finished!" content=""></Step>
                     </Steps>
                 </Sider>
-                <Content style="min-height: 600px;">
-                    <Layout>
+                <Content class="contentClass">
+                    <Layout class="invisibleLayout">
                         <Row type="flex" justify="center" class="logoRow">
                             <Col span=2 >
-                                <img src="../images/SymphonyLogo.png" height=75/>
+                                <img src="../images/Company-Icon.png" height=75/>
                             </Col>
                         </Row>
                         <Row type="flex" justify="center" class="standardRow">
@@ -35,11 +35,11 @@
                         </Row>
                         <Row type="flex" justify="center" class="standardRow">
                             <Col :xs=20 :sm=20 :md=12 :lg=10>
-                                <Form :model="companyForm" :label-width="100">
-                                    <FormItem label="Company Name">
+                                <Form ref="companyForm" :model="companyForm" :label-width="150" :rules="validation_rules">
+                                    <FormItem label="Company (Legal) Name" prop="companyname">
                                         <Input v-model="companyForm.companyname" @on-change="fieldChange('company')"></Input>
                                     </FormItem>
-                                    <FormItem label="Industry">
+                                    <FormItem label="Industry" prop="industry">
                                         <Select v-model="companyForm.industry" placeholder="Select" @on-change="fieldChange('industry')">
                                             <Option value="Agriculture-Mining">Agriculture &amp; Mining</Option>
                                             <Option value="Communications-Media-IT">Communications, Media, IT</Option>
@@ -67,13 +67,14 @@
                                             <Option value="Other">Other</Option>
                                         </Select>
                                     </FormItem>
-                                    <FormItem label="Region">
+                                    <!--Striking Region - 3/20/2018-->
+                                    <!--<FormItem label="Region">
                                         <Select v-model="companyForm.region" placeholder="Select" @on-change="fieldChange('region')">
                                             <Option value="AMER">Americas</Option>
                                             <Option value="EMEA">EMEA</Option>
                                             <Option value="APAC">APAC</Option>
                                         </Select>
-                                    </FormItem>
+                                    </FormItem>-->
                                 </Form>
                             </Col>
                         </Row>
@@ -102,6 +103,15 @@
                     companyname: '',
                     industry: '',
                     region: ''
+                },
+                validation_rules: {
+                    companyname: [
+                        {required: true, message: 'Please enter your company\'s legal name.', trigger: 'blur'}
+                    ],
+                    industry: [
+                        { required: true, message: 'Please select a primary industry from the dropdown.', trigger: 'blur'}
+                    ]
+
                 }
             }
         },
@@ -125,15 +135,24 @@
                         globalState.company.industry = this.companyForm.industry;
                         break;
                     case 'region':
-                        globalState.company.region = this.companyForm.region;
+                        globalState.company.region = 'AMER';
                         break;
                     default: 
                         break;
                 }
             },
             handleGotoService () {
-                //console.log("moving to start the flow.");
-                this.$router.push({name: "service"});
+                this.$refs['companyForm'].validate((valid) => {
+                    if (valid) 
+                    {
+                        this.$router.push({name: "service"});        
+                    }
+                    else
+                    {
+                        this.$Message.error();
+                    }
+                })
+                
                 
             },
             handleGotoContact() {
@@ -144,25 +163,5 @@
 </script>
 <style scoped>
 
-    .layout {
-        border: 1px solid #d7dde4;
-        background: #f5f7f9;
-        position: relative;
-        border-radius: 20px;
-        overflow: hidden;
-        margin:50px;
-    }
-
-    .headerClass {
-        background: #F5F7F9;
-    }
-
-    .sidebarClass {
-        background: white;
-        border-radius: 10px;
-        margin:0 10px;
-        padding-top:15px;
-        padding-left:5px;
-    }
 
 </style>

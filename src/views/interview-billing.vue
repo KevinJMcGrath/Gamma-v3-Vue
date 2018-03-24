@@ -1,5 +1,5 @@
 <template>
-	<div class="layout">
+	<div class="sym-layout">
         <Layout>
             <Header class="headerClass"></Header>
             <Layout>
@@ -9,16 +9,16 @@
                         <Step title="Your Company" content="Some details about your organization."></Step>
                         <Step title="Symphony Service" content="How should the service be configured?"></Step>
                         <Step title="Legalese" content="Our terms and conditions."></Step>
-                        <Step title="Billing Details" content="Credit card and billing information"></Step>
+                        <Step title="Billing" content="Credit card and billing information"></Step>
                         <Step title="Purchase Summary" content="Subscription summary and confirmation."></Step>
                         <Step title="Finished!" content=""></Step>
                     </Steps>
                 </Sider>
-                <Content style="min-height: 600px;">
-                    <Layout>
+                <Content class="contentClass">
+                    <Layout class="invisibleLayout">
                         <Row type="flex" justify="center" class="logoRow">
                             <Col span=2 >
-                                <img src="../images/SymphonyLogo.png" height=75/>
+                                <img src="../images/Billing-Icon.png" height=75/>
                             </Col>
                         </Row>
                         <Row type="flex" justify="center" class="standardRow">
@@ -34,8 +34,8 @@
                             </Col>
                         </Row>
 
-                        <Form :model="billingForm" :label-width="150">
-                        <Row type="flex" justify="center" class="standardRow">
+                        <Form ref="billingForm" :model="billingForm" :label-width="150" :rules="validation_rules">
+                        <!--<Row type="flex" justify="center" class="standardRow">
                             <Col :xs=20 :sm=20 :md=12 :lg=10>                                
                                 <FormItem label="Payment Type" >
                                     <Select v-model="billingForm.type" placeholder="Select" @on-change="fieldChange('type')">
@@ -44,40 +44,42 @@
                                     </Select>
                                 </FormItem>
                             </Col>
-                        </Row>
+                        </Row>-->
                         <Row type="flex" justify="center"  class="standardRow">
                             <Col :xs=20 :sm=20 :md=18 :lg=14>
                                 <Card>
                                     <p slot="title">Payment Details</p>
                                     <p>
+                                        <Row type="flex" justify="center">
+                                            <Col span=18>
+                                                <div class="stripeBox">
+                                                    <div id="card-element"></div>
+                                                </div>
+                                                <p style="color: #ED3F14; font-size: 0.9em;">{{billingForm.stripeError.message}}</p>
+                                            </Col>
+                                        </Row>
                                         <Row>
                                             <Col span=24>
-                                                <FormItem :label-width=10>
+                                                <FormItem :label-width=10 prop="address1">
                                                     <Input v-model="billingForm.address1" @on-change="fieldChange('address1')" placeholder="Street Address"></Input>
                                                 </FormItem>
                                             </Col>
                                         </Row>
                                         <Row>
                                             <Col span=10>
-                                                <FormItem :label-width=10>
+                                                <FormItem :label-width=10 prop="city">
                                                     <Input v-model="billingForm.city" @on-change="fieldChange('city')" placeholder="City"></Input>
                                                 </FormItem>
                                             </Col>
                                             <Col span=6 >
-                                                <FormItem :label-width=10>
+                                                <FormItem :label-width=10 prop="state">
                                                     <Input v-model="billingForm.state" @on-change="fieldChange('state')" placeholder="State"></Input>
                                                 </FormItem>
                                             </Col>
                                             <Col span=8>
-                                                <FormItem :label-width=10>
+                                                <FormItem :label-width=10 prop="zip">
                                                     <Input v-model="billingForm.zip" @on-change="fieldChange('zip')" placeholder="ZIP"></Input>
                                                 </FormItem>
-                                            </Col>
-                                        </Row>
-                                        
-                                        <Row type="flex" justify="center">
-                                            <Col span=18>
-                                                <div id="card-element" class="field"></div>
                                             </Col>
                                         </Row>
                                     </p>
@@ -85,6 +87,14 @@
                             </Col>
                         </Row>
                         </Form>
+
+                        <Row type="flex" justify="center" class="standardRow">
+                            <Col :xs=24 :sm=20 :md=18 :lg=16>
+                                <Alert show-icon>
+                                    Your credit card will <b>not</b> be charged until your instance is complete and you are provided with login credentials.
+                                </Alert>
+                            </Col>
+                        </Row>
 
                         <Row type="flex" justify="center" class="buttonRow">
                             <Col :xs=5 :sm=4 :md=3 :lg=2 class-name="backButtonCol">
@@ -118,7 +128,22 @@
                     city: '',
                     state: '',
                     zip: '',
-                    country: ''
+                    country: '',
+                    stripeError: ''
+                },
+                validation_rules: {
+                    address1: [
+                        { required: true, message: 'Please provide your street address.', trigger: 'blur' }
+                    ],
+                    city: [
+                        { required: true, message: 'Please provide your city or town.', trigger: 'blur' }
+                    ],
+                    state: [
+                        { required: true, message: 'Please provide your state or province.', trigger: 'blur' }
+                    ],
+                    zip: [
+                        { required: true, message: 'Please provide your zip or postal code.', trigger: 'blur' }
+                    ]
                 }
             }
         },
@@ -167,27 +192,44 @@
                 }
             },
             handleGotoSummary () {
-                stripe.createToken(stripeElement).then(function(result) {
-                    if (result.token)
+                this.$refs['billingForm'].validate((valid) => {
+                    this.billingForm.stripeError = '';
+                    if (valid)
                     {
-                        console.log(result.token);
-                        globalState.billing.stripe_token = result.token;
-                    }
-                    else if (result.error) {
-                        console.error(result.error);
-                    } else {
-                        console.error('Failed to obtain token from Stripe.');
-                    }
+                        stripe.createToken(stripeElement).then(function(result) {
+                            if (result.token)
+                            {
+                                
 
-                    this.$router.push({name: "summary"});  
+                                console.log(result.token);
+                                globalState.billing.stripe_token = result.token;
 
-                //Needed to bind "this" in order to get this promise declaration to 
-                //have the correct scope. Inside the promise, this becomes undefined. We
-                //need it to keep attached to the Vue instance
-                //https://stackoverflow.com/questions/39196501/vuejs-async-component-data-and-promises
-                }.bind(this)).catch(function (err) {
-                    console.error(err);
-                });                              
+                                this.$router.push({name: "summary"});  
+                            }
+                            else if (result.error) {
+
+                                this.billingForm.stripeError = result.error;
+                                //console.error(result.error);
+                            } else {
+                                this.billingForm.stripeError = 'Unable to validate your credit card info. Please contact Symphony.'
+                                //console.error('Failed to obtain token from Stripe.');
+                            }                   
+
+                        //Needed to bind "this" in order to get this promise declaration to 
+                        //have the correct scope. Inside the promise, this becomes undefined. We
+                        //need it to keep attached to the Vue instance
+                        //https://stackoverflow.com/questions/39196501/vuejs-async-component-data-and-promises
+                        }.bind(this)).catch(function (err) {
+                            console.error(err);
+                        });
+                    }
+                    else
+                    {
+                        this.$Message.error();
+                    }
+                })
+
+                                              
             },
             handleGotoLegal() {
                 this.$router.push({name: "legal"})
@@ -223,33 +265,11 @@
 </script>
 <style scoped>
 
-	@font-face {
-        font-family: "MrRoboto";
-        src: url(../assets/fonts/Roboto-Regular.ttf);
-    }
-    body {
-
-        font-family: "MrRoboto";
-    }
-    .layout {
-        border: 1px solid #d7dde4;
-        background: #f5f7f9;
-        position: relative;
+    .stripeBox {
+        border: 1px solid lightgray;
+        padding: 10px;
+        margin-bottom: 10px;
         border-radius: 20px;
-        overflow: hidden;
-        margin:50px;
-    }
-
-    .headerClass {
-        background: #F5F7F9;
-    }
-
-    .sidebarClass {
-        background: white;
-        border-radius: 10px;
-        margin:0 10px;
-        padding-top:15px;
-        padding-left:5px;
     }
 
 </style>

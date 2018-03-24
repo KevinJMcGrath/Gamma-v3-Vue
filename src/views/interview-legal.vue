@@ -1,54 +1,99 @@
 <template>
-	<div class="layout">
+	<div class="sym-layout">
         <Layout>
             <Header class="headerClass"></Header>
-            <Layout>
+            <Layout class="layoutClassStationary">
                 <Sider hide-trigger class="sidebarClass">
                     <Steps :current="3" direction="vertical">
                         <Step title="You" content="Information about the first user."></Step>
                         <Step title="Your Company" content="Some details about your organization."></Step>
                         <Step title="Symphony Service" content="How should the service be configured?"></Step>
                         <Step title="Legalese" content="Our terms and conditions."></Step>
-                        <Step title="Billing Details" content="Credit card and billing information"></Step>
+                        <Step title="Billing" content="Credit card and billing information."></Step>
                         <Step title="Purchase Summary" content="Subscription summary and confirmation."></Step>
                         <Step title="Finished!" content=""></Step>
                     </Steps>
                 </Sider>
-                <Content style="min-height: 600px;">
-                    <Layout>
+                <Content class="contentClass">
+                    <Layout class="invisibleLayout">
                         <Row type="flex" justify="center" class="logoRow">
                             <Col span=2 >
-                                <img src="../images/SymphonyLogo.png" height=75/>
+                                <img src="../images/Legal-Icon.png" height=75/>
                             </Col>
                         </Row>
                         <Row type="flex" justify="center" class="standardRow">
                             <Col :xs=24 :sm=24 :md=24 :lg=24>
-                                <p class="p2">Our Legal Mumbo Jumbo...</p>
+                                <p class="p2">Our Terms of Service...</p>
                             </Col>
                         </Row>
                         <Row type="flex" justify="center" class="standardRow">
                             <Col :xs=24 :sm=20 :md=18 :lg=16>
                                 <p  class="p4">
-                                    
+                                    Listed below is a collection of our agreements and policies. Each item will provide you with an option to download the document to read at your leisure. At minimum, you must agree to our terms and conditions listed in the End User License Agreement (EULA) in order to proceed with your order. 
+                                    <br/>
+                                    <br/>
+                                    If you need additional documentation, please contact us directly.
                                 </p>
                             </Col>
                         </Row>
+                        <Row type="flex" class="standardRow">
+                            <Col span=6></Col>
+                            <Col span=10>
+                                <Collapse>
+                                    <Panel name="pnl_gdpr">
+                                        <b>General Data Protection Regulation (EU)</b>
+                                        <p slot="content">
+                                            This document describes how Symphony Communications, LLC conforms to the requirements of the EU GDPR.
+                                            <br/><br/>
+                                            <Button type="primary">
+                                                <Icon type="eye"></Icon>
+                                                Read
+                                            </Button>
+                                            <Button type="primary">
+                                                <Icon type="android-download"></Icon>
+                                                Download
+                                            </Button>
+                                        </p>
+                                    </Panel>
+                                    <Panel name="pnl_privacy">
+                                        <b>Privacy Policy - Symphony Communications</b>
+                                        <p slot="content">
+                                            Our standard privacy policy regarding any personal information you submit on any of our public facing pages. 
+                                            <br/><br/>
+                                            <Button type="primary">
+                                                <Icon type="eye"></Icon>
+                                                Read
+                                            </Button>
+                                            <Button type="primary">
+                                                <Icon type="android-download"></Icon>
+                                                Download
+                                            </Button>
+                                        </p>
+                                    </Panel>
+                                    <Panel name="pnl_msa">
+                                        <b>End User License Agreement</b>
+                                        <p slot="content">
+                                            Terms and conditions for using the Symphony platform for communication. You are required to agree to these conditions before continuing. 
+                                            <br/><br/>
+                                            <Button type="primary">
+                                                <Icon type="eye"></Icon>
+                                                Read
+                                            </Button>
+                                            <Button type="primary">
+                                                <Icon type="android-download"></Icon>
+                                                Download
+                                            </Button>
+                                        </p>
+                                    </Panel>
+                                </Collapse>
+                            </Col>
+                        </Row>
                         <Row type="flex" justify="center" class="standardRow">
-                            <Col  :xs=20 :sm=20 :md=20 :lg=14>
-                                <Form :model="legalForm" >
-                                    <FormItem>
-                                        <Checkbox v-model="legalForm.terms" @on-change="fieldChange('terms')">
-                                            <span>I have read and agree to Symphony's <a href="#">Terms and Conditions</a></span>
-                                        </Checkbox>
-                                    </FormItem>
-                                    <FormItem>
-                                        <Checkbox v-model="legalForm.ofac" @on-change="fieldChange('ofac')">
-                                            <span>I agree to allow Symphony to request information from the <a href="#">Office of Foreign Asset Control</a></span>
-                                        </Checkbox>
-                                    </FormItem>
-                                    <FormItem>
-                                        <Checkbox v-model="legalForm.other" @on-change="fieldChange('other')">
-                                            <span>I agree to allow Symphony to do other things that might not be covered above.</span>
+                            <Col :xs=20 :sm=20 :md=20 :lg=14>
+                                <Form ref="legalForm" :model="legalForm" :rules="validation_rules">
+                                    <FormItem prop="terms_conditions" :required=true>
+                                        <Checkbox v-model="legalForm.terms_conditions" @on-change="fieldChange('terms_conditions')" >
+                                            <span>I have read and agree to the EULA</span>
                                         </Checkbox>
                                     </FormItem>
                                 </Form>
@@ -74,11 +119,28 @@
 
 	export default {
         data() {
+            const validateTandC = (rule, value, callback) => {
+                console.log(value)
+
+                if (value === true)
+                {
+                    callback();
+                }
+                else
+                {
+                    callback(new Error('You must agree to the terms specified in the EULA to proceed.'));
+                }                
+            };
+
             return {
                 legalForm: {
-                    terms: false,
-                    ofac: false,
-                    other: false
+                    terms_conditions: false
+                },
+                validation_rules: {
+                    terms_conditions: [
+                        //{ required: true, type: "boolean",  message: 'Please check that you agree to the terms specified in the EULA', trigger: 'change'}
+                        { validator: validateTandC, trigger: 'change' }
+                    ]
                 }
             }
         },
@@ -86,31 +148,32 @@
 
             if (globalState.legal)
             {
-                this.legalForm.terms = globalState.legal.terms;
-                this.legalForm.ofac = globalState.legal.ofac;
-                this.legalForm.other = globalState.legal.other;
+                this.legalForm.terms_conditions = globalState.legal.terms_conditions;
             }
         },
         methods: {
             fieldChange(fieldName) { 
                 switch(fieldName)
                 {
-                    case 'fname':
-                        globalState.legal.terms = this.legalForm.terms;
-                        break;
-                    case 'lname':
-                        globalState.legal.ofac = this.legalForm.ofac;
-                        break;
-                    case 'email':
-                        globalState.legal.other = this.legalForm.other;
+                    case 'terms':
+                        globalState.legal.terms_conditions = this.legalForm.terms_conditions;
                         break;
                     default: 
                         break;
                 }
             },
             handleGotoBilling () {
-                //console.log("moving to start the flow.");
-                this.$router.push({name: "billing"});
+                this.$refs['legalForm'].validate((valid) => {
+                    if (valid)
+                    {
+                        this.$router.push({name: "billing"});
+                    }
+                    else
+                    {
+                        this.$Message.error();
+                    }
+                })
+                
                 
             },
             handleGotoService() {
@@ -120,34 +183,5 @@
     }
 </script>
 <style scoped>
-
-	@font-face {
-        font-family: "MrRoboto";
-        src: url(../assets/fonts/Roboto-Regular.ttf);
-    }
-    body {
-
-        font-family: "MrRoboto";
-    }
-    .layout {
-        border: 1px solid #d7dde4;
-        background: #f5f7f9;
-        position: relative;
-        border-radius: 20px;
-        overflow: hidden;
-        margin:50px;
-    }
-
-    .headerClass {
-        background: #F5F7F9;
-    }
-
-    .sidebarClass {
-        background: white;
-        border-radius: 10px;
-        margin:0 10px;
-        padding-top:15px;
-        padding-left:5px;
-    }
 
 </style>

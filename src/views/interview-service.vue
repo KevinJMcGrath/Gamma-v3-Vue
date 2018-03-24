@@ -1,24 +1,24 @@
 <template>
-	<div class="layout">
+	<div class="sym-layout">
         <Layout>
             <Header class="headerClass"></Header>
-            <Layout>
+            <Layout  class="layoutClass">
                 <Sider hide-trigger class="sidebarClass">
                     <Steps :current="2" direction="vertical">
                         <Step title="You" content="Information about the first user."></Step>
                         <Step title="Your Company" content="Some details about your organization."></Step>
                         <Step title="Symphony Service" content="How should the service be configured?"></Step>
                         <Step title="Legalese" content="Our terms and conditions."></Step>
-                        <Step title="Billing Details" content="Credit card and billing information"></Step>
+                        <Step title="Billing" content="Credit card and billing information."></Step>
                         <Step title="Purchase Summary" content="Subscription summary and confirmation."></Step>
                         <Step title="Finished!" content=""></Step>
                     </Steps>
                 </Sider>
-                <Content style="min-height: 600px;">
-                    <Layout>
+                <Content class="contentClass">
+                    <Layout class="invisibleLayout">
                         <Row type="flex" justify="center" class="logoRow">
                             <Col span=2 >
-                                <img src="../images/SymphonyLogo.png" height=75/>
+                                <img src="../images/Service-Icon.png" height=75/>
                             </Col>
                         </Row>
                         <Row type="flex" justify="center" class="standardRow">
@@ -34,26 +34,35 @@
                             </Col>
                         </Row>
 
-                        <Form :model="serviceForm" :label-width="150">
-                        <Row type="flex" justify="center" class="standardRow">
+                        <Form ref="serviceForm" :model="serviceForm" :label-width="150" :rules="validation_rules">
+                        <!--<Row type="flex" justify="center" class="standardRow">
                             <Col :xs=20 :sm=20 :md=16 :lg=14>                                
-                                <FormItem label="Requested Domain">
+                                <<FormItem label="Requested Domain">
                                     <Input v-model="serviceForm.subdomain" @on-change="fieldChange('subdomain')">
                                         <span slot="prepend">https://</span>
                                         <span slot="append">.symphony.com</span>
                                     </Input>
                                 </FormItem>
                             </Col>
-                        </Row>
-                        <Row type="flex" justify="center" >
+                        </Row>-->
+                        <Row type="flex" justify="center" class="standardRow">
                             <Col :xs=20 :sm=20 :md=12 :lg=10> 
-                                <FormItem label="Initial Users">
+                                <FormItem label="Initial Users" prop="seats" :show-message=true>
                                     <InputNumber :min="10" :step="1" v-model="serviceForm.seats" @on-change="fieldChange('seats')"></InputNumber>
-                                    <a href="#">Pricing</a>
+                                    <a href="#" @click="pricing_window = true">Pricing</a>
+                                    <Modal v-model="pricing_window" title="Pricing" @on-ok="modal_ok" ok-text="Ok" cancel-text="Cancel">
+                                        <p>
+                                            Standard business tier pricing: $240 per user, annually. <br/>
+                                            Additionally, new clients are charged a one-time setup fee of $500. <br/>
+                                            <br/>
+                                            Clients may provision users over their subscription amount; those additional users are billed as 'overage' at the standard rate, pro-rated for the number of days per month the client over their contracted user licenses. 
+                                        </p>
+                                    </Modal>
                                 </FormItem>
-                                <FormItem label="Global Name">
+                                <FormItem label="Vanity Name" prop="directoryname">
                                     <Input v-model="serviceForm.directoryname" @on-change="fieldChange('directoryname')"></Input>
                                 </FormItem>
+                                <!--
                                 <FormItem label="Support Tier">
                                     <Select v-model="serviceForm.support_tier" placeholder="Select" @on-change="fieldChange('support_tier')">
                                         <Option value="bronze">Self-Service (Free)</Option>
@@ -61,8 +70,8 @@
                                         <Option value="gold">Gold ($1000/year)</Option>
                                         <Option value="platinum">Platinum ($2000/year)</Option>
                                     </Select>
-                                </FormItem>
-                                <FormItem label="Promo Code">
+                                </FormItem>-->
+                                <FormItem label="Promo Code" prop="promocode">
                                     <Input v-model="serviceForm.promocode" @on-change="fieldChange('promocode')"></Input>
                                 </FormItem>                                
                             </Col>
@@ -90,12 +99,22 @@
 	export default {
         data() {
             return {
+                pricing_window: false,
                 serviceForm: {
                     subdomain: '',
                     seats: 10,
                     directoryname: '',
                     support_tier: '',
                     promocode: ''
+                },
+                validation_rules: {
+                    seats: [
+                        //For some reason, I needed to specify the type for this rule to work consistently
+                        { required: true, type: 'number', message: 'Please enter a non-zero number of seats.', trigger: 'change' }
+                    ],
+                    directoryname: [
+                        { required: true, message: 'Please include a "friendly" name for your company.', trigger: 'blur' }
+                    ]
                 }
             }
         },
@@ -118,6 +137,7 @@
                         globalState.service.subdomain = this.serviceForm.subdomain;
                         break;
                     case 'seats':
+                        console.log('Seats: ' + this.serviceForm.seats);
                         globalState.service.seats = this.serviceForm.seats;
                         break;
                     case 'directoryname':
@@ -134,44 +154,30 @@
                 }
             },
             handleGotoLegal () {
-                this.$router.push({name: "legal"});
+                this.$refs['serviceForm'].validate((valid) => {
+                    if (valid)
+                    {
+                        this.$router.push({name: "legal"});
+                    }
+                    else
+                    {
+                        this.$Message.error();
+                    }
+                })
+                
                 
             },
             handleGotoCompany() {
                 this.$router.push({name: "company"})
+            },
+            modal_ok() {
+
             }
         }
     }
 </script>
 <style scoped>
 
-	@font-face {
-        font-family: "MrRoboto";
-        src: url(../assets/fonts/Roboto-Regular.ttf);
-    }
-    body {
 
-        font-family: "MrRoboto";
-    }
-    .layout {
-        border: 1px solid #d7dde4;
-        background: #f5f7f9;
-        position: relative;
-        border-radius: 20px;
-        overflow: hidden;
-        margin:50px;
-    }
-
-    .headerClass {
-        background: #F5F7F9;
-    }
-
-    .sidebarClass {
-        background: white;
-        border-radius: 10px;
-        margin:0 10px;
-        padding-top:15px;
-        padding-left:5px;
-    }
 
 </style>

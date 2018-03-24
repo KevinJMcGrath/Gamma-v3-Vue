@@ -7,24 +7,26 @@ const state = {
 		lastname: 'McGrath',
 		email: 'kevin.mcgrath@symphony.com',
 		dayphone: '610-328-9985',
-		mobilephone: '215-828-6986'
+		mobilephone: '215-828-6986',
+		complete: false
 	},
 	company: {
 		name: 'Ghostbusters, Inc.',
 		industry: 'Consumer-Services',
-		region: 'AMER'
+		region: 'AMER',
+		complete: false
 	},
 	service: {
 		subdomain: 'mycompany',
 		seats: 10,
 		directoryname: 'My Company',
 		support_tier: 'gold',
-		promocode: 'GAMMA-2018'
+		promocode: 'GAMMA-2018',
+		complete: false
 	},
 	legal: {
-		terms: true,
-		ofac: false,
-		other: false
+		terms_conditions: false,
+		complete: false
 	},
 	billing: {
 		type: 'card',
@@ -34,7 +36,8 @@ const state = {
 		state: 'NY',
 		zip: '10013',
 		country: 'USA',
-		stripe_token: {}
+		stripe_token: {},
+		complete: false
 	},
 	pricing: {
 		onetime_fees: 500,

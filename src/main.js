@@ -14,7 +14,7 @@ Vue.use(iView);
 
 //Take the contents of router.js and pass it in as the "routes"
 const RouterConfig = {
-    mode: 'history',
+    mode: 'hash', //'history',
     routes: Routers
 };
 //Instantiate the Vue Router
@@ -22,8 +22,8 @@ const router = new VueRouter(RouterConfig);
 
 //testing process.env
 console.log("Exporting Environment Variables: ");
-console.log(process.env.NODE_ENV);
-console.log(process.env.SFDC_EMAIL_KEY); 
+//console.log(process.env.NODE_ENV);
+//console.log(process.env.SFDC_EMAIL_KEY); 
 
 //Navigation Guards
 //https://router.vuejs.org/en/advanced/navigation-guards.html

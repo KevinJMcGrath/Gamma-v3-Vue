@@ -1,36 +1,99 @@
 <template>
-	<div class="layout">
+	<div class="sym-layout">
         <Layout>
             <Header class="headerClass"></Header>
-            <Layout>
+            <Layout >
                 <Sider hide-trigger class="sidebarClass">
                     <Steps :current="6" direction="vertical">
                         <Step title="You" content="Information about the first user."></Step>
                         <Step title="Your Company" content="Some details about your organization."></Step>
                         <Step title="Symphony Service" content="How should the service be configured?"></Step>
                         <Step title="Legalese" content="Our terms and conditions."></Step>
-                        <Step title="Billing Details" content="Credit card and billing information"></Step>
+                        <Step title="Billing" content="Credit card and billing information."></Step>
                         <Step title="Purchase Summary" content="Subscription summary and confirmation."></Step>
                         <Step title="Finished!" content=""></Step>
                     </Steps>
                 </Sider>
-                <Content style="min-height: 600px;">
-                    <Layout>
-                        <Row type="flex" justify="center" style="height:75px;">
+                <Content class="contentClass">
+                    <Layout class="invisibleLayout">
+                        <Row type="flex" justify="center" class="logoRow">
                             <Col span=2 >
-                                <img src="../images/SymphonyLogo.png" height=75/>
+                                <img src="../images/Finished-Icon.png" height=75/>
                             </Col>
                         </Row>
-                        <Row type="flex" justify="center" style="margin-top:20px;">
-                            <Col span=8>
-                                <p style="font-size: 2.2em;text-align:center;">Thank You!</p>
+                        <Row type="flex" justify="center" class="standardRow">
+                            <Col :xs=24 :sm=18 :md=10 :lg=8>
+                                <p class="p2">Thank You!</p>
                             </Col>
                         </Row>
-                        <Row type="flex" justify="center" style="margin-top:20px;">
-                            <Col span=16>
-                                <p style="margin-top:10px;font-size:1.2em;text-align:center;">
-                                    We're going to start spinning up your service shortly. We expect it to be ready in about 1 hour. 
+                        <Row type="flex" justify="center" class="standardRow">
+                            <Col :xs=24 :sm=20 :md=18 :lg=16>
+                                <p class="p4">
+                                    We're going to start spinning up your service shortly. We expect it to be ready in about <b style="color: Firebrick;">2 hours</b>.
+                                    <br/><br/>
+                                    You should shortly be receving an email containing a summary of your purchase. Upon delivery of your Symphony service creditials, you will receive a receipt for the charge on your credit card. You will <b>not</b> be charged until your service is deilvered.  
                                 </p>
+                            </Col>
+                        </Row>
+
+                        <Row type="flex" justify="center" style="margin-top: 40px;">
+                            <Col :xs=24 :sm=20 :md=18 :lg=14>
+                                <iframe width="560" height="315" src="https://www.youtube.com/embed/tRAmXi0uAio" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                            </Col>
+                        </Row>
+
+                        <Row type="flex" justify="center"  class="standardRow">                            
+                            <Col span=14>
+                                <Card>
+                                    <p slot="title">What's Next?</p>
+                                    <Collapse>
+                                        <Panel name="pnl_gdpr">
+                                            <b>Getting Started - Quick tips and How-to guides</b>
+                                            <p slot="content">
+                                                This document describes how Symphony Communications, LLC conforms to the requirements of the EU GDPR.
+                                                <br/><br/>
+                                                <Button type="primary">
+                                                    <Icon type="eye"></Icon>
+                                                    Read
+                                                </Button>
+                                                <Button type="primary">
+                                                    <Icon type="android-download"></Icon>
+                                                    Download
+                                                </Button>
+                                            </p>
+                                        </Panel>
+                                        <Panel name="pnl_privacy">
+                                            <b>Community - Connecting through Symphony</b>
+                                            <p slot="content">
+                                                Our standard privacy policy regarding any personal information you submit on any of our public facing pages. 
+                                                <br/><br/>
+                                                <Button type="primary">
+                                                    <Icon type="eye"></Icon>
+                                                    Read
+                                                </Button>
+                                                <Button type="primary">
+                                                    <Icon type="android-download"></Icon>
+                                                    Download
+                                                </Button>
+                                            </p>
+                                        </Panel>
+                                        <Panel name="pnl_msa">
+                                            <b>Development - Adding Apps and Bots to Symphony</b>
+                                            <p slot="content">
+                                                Terms and conditions for using the Symphony platform for communication. You are required to agree to these conditions before continuing. 
+                                                <br/><br/>
+                                                <Button type="primary">
+                                                    <Icon type="eye"></Icon>
+                                                    Read
+                                                </Button>
+                                                <Button type="primary">
+                                                    <Icon type="android-download"></Icon>
+                                                    Download
+                                                </Button>
+                                            </p>
+                                        </Panel>
+                                    </Collapse>
+                                </Card>
                             </Col>
                         </Row>
                         
@@ -52,33 +115,5 @@
 </script>
 <style scoped>
 
-	@font-face {
-        font-family: "MrRoboto";
-        src: url(../assets/fonts/Roboto-Regular.ttf);
-    }
-    body {
-
-        font-family: "MrRoboto";
-    }
-    .layout {
-        border: 1px solid #d7dde4;
-        background: #f5f7f9;
-        position: relative;
-        border-radius: 20px;
-        overflow: hidden;
-        margin:50px;
-    }
-
-    .headerClass {
-        background: #F5F7F9;
-    }
-
-    .sidebarClass {
-        background: white;
-        border-radius: 10px;
-        margin:0 10px;
-        padding-top:15px;
-        padding-left:5px;
-    }
 
 </style>

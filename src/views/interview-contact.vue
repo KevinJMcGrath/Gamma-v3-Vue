@@ -9,16 +9,16 @@
                         <Step title="Your Company" content="Some details about your organization."></Step>
                         <Step title="Symphony Service" content="How should the service be configured?"></Step>
                         <Step title="Legalese" content="Our terms and conditions."></Step>
-                        <Step title="Billing Details" content="Credit card and billing information"></Step>
+                        <Step title="Billing" content="Credit card and billing information."></Step>
                         <Step title="Purchase Summary" content="Subscription summary and confirmation."></Step>
                         <Step title="Finished!" content=""></Step>
                     </Steps>
                 </Sider>
                 <Content class="contentClass">
-                    <Layout>
+                    <Layout class="invisibleLayout">
                         <Row type="flex" justify="center" class="logoRow">
                             <Col span=2 >
-                                <img src="../images/SymphonyLogo.png" height=75/>
+                                <img src="../images/Contact-Icon.png" height=75/>
                             </Col>
                         </Row>
                         <Row type="flex" justify="center" class="standardRow">
@@ -35,20 +35,14 @@
                         </Row>
                         <Row type="flex" justify="center" class="standardRow">
                             <Col :xs=20 :sm=20 :md=12 :lg=10>
-                                <Form :model="contactForm" :label-width="100">
-                                    <FormItem label="First Name">
+                                <Form  ref="contactForm" :model="contactForm" :label-width="100" :rules="validation_rules">
+                                    <FormItem label="First Name" prop="firstname">
                                         <Input v-model="contactForm.firstname" @on-change="fieldChange('fname')"></Input>
                                     </FormItem>
-                                    <FormItem label="Last Name">
+                                    <FormItem label="Last Name" prop="lastname">
                                         <Input v-model="contactForm.lastname" @on-change="fieldChange('lname')"></Input>
                                     </FormItem>
-                                    <FormItem label="Email">
-                                        <Input v-model="contactForm.email" @on-change="fieldChange('email')"></Input>
-                                    </FormItem>
-                                    <FormItem label="Daytime Phone">
-                                        <Input v-model="contactForm.dayphone" @on-change="fieldChange('dayp')"></Input>
-                                    </FormItem>
-                                    <FormItem label="Mobile Phone">
+                                    <FormItem label="Phone" prop="mobilephone">
                                         <Input v-model="contactForm.mobilephone" @on-change="fieldChange('mobilep')"></Input>
                                     </FormItem>
                                 </Form>
@@ -80,7 +74,20 @@
                     lastname: '',
                     email: '',
                     dayphone: '',
-                    mobilephone: ''
+                    mobilephone: '',
+                    chkTest: false
+                },
+                validation_rules: { 
+                    firstname: [
+                        { required: true, message: 'Please enter your first name.', trigger: 'blur'}
+                    ],
+                    lastname: [
+                        { required: true, message: 'Please enter your last name.', trigger: 'blur'}
+                    ],
+                    mobilephone: [
+                        { required: true, message: 'Please enter your daytime phone number.', trigger: 'blur'}
+                    ]
+
                 }
             }
         },
@@ -120,55 +127,31 @@
                     case 'mobilep':
                         globalState.user.mobilephone = this.contactForm.mobilephone;
                         break;
+                    case 'chkTest':
+                        console.log('got here');
+                        break;
                     default: 
                         break;
                 }
             },
             handleGotoCompany () {
 
-                this.$router.push({name: "company"});
-                
+                this.$refs['contactForm'].validate((valid) => {
+                    if (valid)
+                    {
+                        this.$router.push({name: "company"});        
+                    }
+                    else
+                    {
+                        this.$Message.error();
+                    }
+
+                })
             }
         }
     }
 </script>
 <style scoped>
-
-
-    .layout {
-        border: 1px solid #d7dde4;
-        background: #f5f7f9;
-        position: relative;
-        border-radius: 20px;
-        overflow: hidden;
-        margin:50px;
-    }
-
-    .headerClass {
-        background: #F5F7F9;
-    }
-
-    .sidebarClass {
-        background: white;
-        border-radius: 10px;
-        margin:0 10px;
-        padding-top:15px;
-        padding-left:5px;
-    }
-
-    .contentClass {
-        min-height: 600px;
-        /*background-color: transparent;
-        border: 1px solid red;
-        display: none;*/
-    }
-
-    .layoutClass {
-        /*
-        background: url("../images/fractals_2560.jpg") no-repeat top left;
-        background-size: 100% 50%;
-        border: 1px solid red;*/
-    }
 
 
 </style>
